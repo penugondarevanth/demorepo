@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="7fe34f67-10a6-4131-9896-d3a25587f7f8" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="demo3Flow" doc:id="c4c5a135-604f-48fa-8542-888ca7b92cb1" >
+		<http:listener doc:name="Listener" doc:id="26b3cf34-d83f-432a-b146-eb9c4273c919" config-ref="HTTP_Listener_config" path="/demo3"/>
+		<logger level="INFO" doc:name="Logger" doc:id="1d0bb95a-e0cb-44c8-b7f6-56ad3ff01e31" message="Flow start log" />
+		<set-payload value='#["8591"]' doc:name="Set Payload" doc:id="5698093d-4672-4069-b43a-ff62d789da51" />
+		<set-variable value="#[payload]" doc:name="Set Variable" doc:id="94e61383-b882-4cdb-90d0-b5828766fe6c" variableName="Num"/>
+		<flow-ref doc:name="demo3Sub_Flow" doc:id="6d14b19e-bcf0-4bef-a0dc-822e145ac979" name="demo3Sub_Flow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="5ff583a5-dbaf-4bbe-a8fb-30aa3f0b70e6" message='#[payload++ "4780" ++ " " ++ vars.Num]'/>
+	</flow>
+	<sub-flow name="demo3Sub_Flow" doc:id="95ae44b5-6d53-400c-942c-ed2aec7688b1" >
+		<logger level="INFO" doc:name="Logger" doc:id="ab7d8a01-26d4-444c-92b4-692f0afd3664" message="Sub flow start log -#[payload]" />
+		<logger level="INFO" doc:name="Logger" doc:id="28cdf809-a18a-4355-8bda-2f1ad66cafe6" message="Sub flow end log"/>
+		<set-payload value='#["Welcome to Vamshi"]' doc:name="Set Payload" doc:id="c63442ec-6989-44f5-a34c-fd0561d86d9a" />
+	</sub-flow>
+</mule>
